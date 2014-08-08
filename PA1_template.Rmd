@@ -2,7 +2,8 @@
 
 ## Loading and preprocessing the data
 
-```{r eval=-1}
+```{r eval=-2}
+library(lattice)
 system("unzip activity.zip")
 data1 <- read.csv("activity.csv")
 summary(data1)
@@ -10,6 +11,13 @@ summary(data1)
 ```{r}
 # Function to print numbers to decimal places by default
 print2 <- function(x, decimals=2) noquote(format(x, nsmall=decimals))
+
+# function to return the direction and magnitude of a change as a string
+strChange <- function(x) {
+    if (x == 0) return("no effect")
+    if (x > 0) return(paste("increase of", x))
+    if (x < 0) return(paste("decrease of", abs(x)))
+}
 ```
 
 ## What is mean total number of steps taken per day?
@@ -105,7 +113,7 @@ meanDailyStepsImputed <- mean(totDailySteps2)
 print2(meanDailyStepsImputed)
 
 # Difference
-print2(meanDailyStepsImputed - meanDailyStepsRaw)
+print2(dMean <- meanDailyStepsImputed - meanDailyStepsRaw)
 
 # Median before imputation
 print2(medianDailyStepsRaw)
@@ -116,9 +124,31 @@ names(medianDailyStepsImputed) <- NULL
 print2(medianDailyStepsImputed)
 
 # Difference
-round(medianDailyStepsImputed - medianDailyStepsRaw, 2)
+(dMedian <- round(medianDailyStepsImputed - medianDailyStepsRaw, 2))
 ```
 
-Imputing missing values for `steps` had no effect on the mean steps per day and
-increased the median by `r round(medianDailyStepsImputed - medianDailyStepsRaw, 2)`.
+Imputing missing values for `steps` had the following effects on the mean and
+median number of steps per day:
+* Mean: `r strChange(dMean)`
+* Median: `r strChange(dMedian)`
+
 ## Are there differences in activity patterns between weekdays and weekends?
+
+```{r}
+# Create factor "weekday" with levels "weekday" and "weekend"
+day <- weekdays(as.POSIXct(data2$date), abbreviate=TRUE)
+data2$weekday <- factor(ifelse(day %in% c("Sat", "Sun"), "weekend", "weekday"))
+
+# Compute average steps per interval for weekday and weekend data
+wkday.avgs <- with(data2[data2$weekday=="weekday",], by(steps, interval, mean))
+wkend.avgs <- with(data2[data2$weekday=="weekend",], by(steps, interval, mean))
+
+# Create a dataset for the average step data
+avg.data <- data.frame(steps=c(wkday.avgs, wkend.avgs), 
+                       interval=as.numeric(c(names(wkday.avgs), names(wkend.avgs))),
+                       weekday=c(rep.int("weekday", length(wkday.avgs)),
+                                 rep.int("weekend", length(wkend.avgs))))
+
+xyplot(steps ~ interval | weekday, data=avg.data, type='l', layout=c(1,2), xlab="Interval",
+       ylab="Average number of steps")
+```
