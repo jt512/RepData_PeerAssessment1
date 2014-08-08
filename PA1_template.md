@@ -5,6 +5,7 @@
 
 ```r
 library(lattice)
+source("formatters.R")  # Functions for pretty printing
 ## system("unzip activity.zip")
 data1 <- read.csv("activity.csv")
 summary(data1)
@@ -20,19 +21,6 @@ summary(data1)
 ##  Max.   :806.0   2012-10-06:  288   Max.   :2355  
 ##  NA's   :2304    (Other)   :15840
 ```
-
-```r
-# Function to print numbers to decimal places by default
-print2 <- function(x, decimals=2) noquote(format(x, nsmall=decimals))
-
-# function to return the direction and magnitude of a change as a string
-strChange <- function(x) {
-    if (x == 0) return("no effect")
-    if (x > 0) return(paste("increase of", x))
-    if (x < 0) return(paste("decrease of", abs(x)))
-}
-```
-
 ## What is mean total number of steps taken per day?
 Compute total number of steps taken each day:
 
@@ -44,7 +32,7 @@ totDailySteps <- with(data1, by(steps, date, sum))
 hist(totDailySteps, breaks=7)
 ```
 
-![plot of chunk unnamed-chunk-4](figure/unnamed-chunk-4.png) 
+![plot of chunk unnamed-chunk-3](figure/unnamed-chunk-3.png) 
 
 Compute mean daily steps:
 
@@ -81,12 +69,13 @@ yvar <- avgStepsPerInterval
 plot(xvar, yvar, type='l', xlab="5-minute inteval", ylab="Average number of steps")
 ```
 
-![plot of chunk unnamed-chunk-8](figure/unnamed-chunk-8.png) 
+![plot of chunk unnamed-chunk-7](figure/unnamed-chunk-7.png) 
 
 Determine which interval has the highest average number of steps:
 
 
 ```r
+# Highest average number of steps in any interval
 print2(maxSteps <- max(avgStepsPerInterval))
 ```
 
@@ -95,12 +84,12 @@ print2(maxSteps <- max(avgStepsPerInterval))
 ```
 
 ```r
-print2(maxStepInterval = names(which(avgStepsPerInterval == maxSteps)))
+# Interval with the highest average number of steps
+print2(maxStepInterval <- names(which(avgStepsPerInterval == maxSteps)))
 ```
 
 ```
-## Error: unused argument (maxStepInterval = names(which(avgStepsPerInterval
-## == maxSteps)))
+## [1] 835
 ```
 The maximum average number of steps per interval is **206.1698** and occurs in interval **835**.
 
@@ -172,7 +161,7 @@ totDailySteps2 <- with(data2, by(steps, date, sum))
 hist(totDailySteps2, breaks=7)
 ```
 
-![plot of chunk unnamed-chunk-14](figure/unnamed-chunk-14.png) 
+![plot of chunk unnamed-chunk-13](figure/unnamed-chunk-13.png) 
 
 Effect of missing value impuation on mean and median number of steps per day:
 
@@ -246,18 +235,12 @@ median number of steps per day:
 day <- weekdays(as.POSIXct(data2$date), abbreviate=TRUE)
 data2$weekday <- factor(ifelse(day %in% c("Sat", "Sun"), "weekend", "weekday"))
 
-# Compute average steps per interval for weekday and weekend data
-wkday.avgs <- with(data2[data2$weekday=="weekday",], by(steps, interval, mean))
-wkend.avgs <- with(data2[data2$weekday=="weekend",], by(steps, interval, mean))
-
 # Create a dataset for the average step data
-avg.data <- data.frame(steps=c(wkday.avgs, wkend.avgs), 
-                       interval=as.numeric(c(names(wkday.avgs), names(wkend.avgs))),
-                       weekday=c(rep.int("weekday", length(wkday.avgs)),
-                                 rep.int("weekend", length(wkend.avgs))))
+avg.data <- data.frame(with(data2, aggregate(steps, list(interval, weekday), mean)))
+names(avg.data) <- c('interval', 'weekday', 'steps')
 
 xyplot(steps ~ interval | weekday, data=avg.data, type='l', layout=c(1,2), xlab="Interval",
        ylab="Average number of steps")
 ```
 
-![plot of chunk unnamed-chunk-16](figure/unnamed-chunk-16.png) 
+![plot of chunk unnamed-chunk-15](figure/unnamed-chunk-15.png) 
