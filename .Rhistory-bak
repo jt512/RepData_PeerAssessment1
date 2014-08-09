@@ -1,0 +1,12 @@
+library(knitter)
+library(kniter)
+library(knitr)
+knitr("PA1_template.Rmd")
+knitr2pdf("PA1_template.Rmd")
+?knitr
+library(knitr)
+knit2pdf("PA1_template.Rmd")
+knit2html("PA1_template.Rmd")
+browseURL("PA1_template.html")
+quit(save = "yes")
+summary(data1)

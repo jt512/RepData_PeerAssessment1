@@ -6,7 +6,7 @@
 ```r
 library(lattice)
 source("formatters.R")  # Functions for pretty printing
-## system("unzip activity.zip")
+unzip("activity.zip")
 data1 <- read.csv("activity.csv")
 summary(data1)
 ```
@@ -91,7 +91,8 @@ print2(maxStepInterval <- names(which(avgStepsPerInterval == maxSteps)))
 ```
 ## [1] 835
 ```
-The maximum average number of steps per interval is **206.1698** and occurs in interval **835**.
+The maximum average number of steps per interval is **206.17** and occurs 
+in interval **835**.
 
 ## Imputing missing values
 
@@ -239,6 +240,8 @@ data2$weekday <- factor(ifelse(day %in% c("Sat", "Sun"), "weekend", "weekday"))
 avg.data <- data.frame(with(data2, aggregate(steps, list(interval, weekday), mean)))
 names(avg.data) <- c('interval', 'weekday', 'steps')
 
+# Plot the average number of steps per day for each interval, averagesd separately 
+# over all weekdays and all weekend days, vs. the interval
 xyplot(steps ~ interval | weekday, data=avg.data, type='l', layout=c(1,2), xlab="Interval",
        ylab="Average number of steps")
 ```

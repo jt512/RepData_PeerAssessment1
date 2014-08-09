@@ -2,10 +2,10 @@
 
 ## Loading and preprocessing the data
 
-```{r eval=-3}
+```{r}
 library(lattice)
 source("formatters.R")  # Functions for pretty printing
-system("unzip activity.zip")
+unzip("activity.zip")
 data1 <- read.csv("activity.csv")
 summary(data1)
 ```
@@ -14,7 +14,7 @@ Compute total number of steps taken each day:
 ```{r}
 totDailySteps <- with(data1, by(steps, date, sum))
 ```
-```{r}
+```{r fig.height=5}
 hist(totDailySteps, breaks=7)
 ```
 
@@ -50,7 +50,8 @@ print2(maxSteps <- max(avgStepsPerInterval))
 # Interval with the highest average number of steps
 print2(maxStepInterval <- names(which(avgStepsPerInterval == maxSteps)))
 ```
-The maximum average number of steps per interval is **`r maxSteps`** and occurs in interval **`r maxStepInterval`**.
+The maximum average number of steps per interval is **`r print2(maxSteps)`** and occurs 
+in interval **`r maxStepInterval`**.
 
 ## Imputing missing values
 
@@ -91,7 +92,7 @@ Compute total number of steps taken each day in the imputed dataset:
 ```{r}
 totDailySteps2 <- with(data2, by(steps, date, sum))
 ```
-```{r}
+```{r fig.height=5}
 hist(totDailySteps2, breaks=7)
 ```
 
@@ -135,6 +136,8 @@ data2$weekday <- factor(ifelse(day %in% c("Sat", "Sun"), "weekend", "weekday"))
 avg.data <- data.frame(with(data2, aggregate(steps, list(interval, weekday), mean)))
 names(avg.data) <- c('interval', 'weekday', 'steps')
 
+# Plot the average number of steps per day for each interval, averagesd separately 
+# over all weekdays and all weekend days, vs. the interval
 xyplot(steps ~ interval | weekday, data=avg.data, type='l', layout=c(1,2), xlab="Interval",
        ylab="Average number of steps")
 ```
