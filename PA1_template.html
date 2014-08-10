@@ -240,7 +240,7 @@ summary(data1)
 
 <p>Compute average number of steps taken for each 5-minute interval:</p>
 
-<pre><code class="r">avgStepsPerInterval &lt;- with(data1, by(steps, interval, mean, na.rm=TRUE))
+<pre><code class="r">avgStepsPerInterval &lt;- with(data1, tapply(steps, interval, mean, na.rm=TRUE))
 </code></pre>
 
 <p>Plot the average number of steps per 5-min. interval by the 5-min. interval.</p>

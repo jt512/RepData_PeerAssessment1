@@ -1,3 +1,6 @@
+---
+output: html_document
+---
 # Reproducible Research: Peer Assessment 1
 
 ## Loading and preprocessing the data
@@ -57,7 +60,7 @@ print2(medianDailyStepsRaw <- as.numeric(median(totDailySteps, na.rm=TRUE)))
 Compute average number of steps taken for each 5-minute interval:
 
 ```r
-avgStepsPerInterval <- with(data1, by(steps, interval, mean, na.rm=TRUE))
+avgStepsPerInterval <- with(data1, tapply(steps, interval, mean, na.rm=TRUE))
 ```
 
 Plot the average number of steps per 5-min. interval by the 5-min. interval.
@@ -247,3 +250,4 @@ xyplot(steps ~ interval | weekday, data=avg.data, type='l', layout=c(1,2), xlab=
 ```
 
 ![plot of chunk unnamed-chunk-15](figure/unnamed-chunk-15.png) 
+
