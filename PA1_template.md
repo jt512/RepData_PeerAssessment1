@@ -67,9 +67,17 @@ Plot the average number of steps per 5-min. interval by the 5-min. interval.
 
 
 ```r
-xvar <- as.numeric(names(avgStepsPerInterval)) 
-yvar <- avgStepsPerInterval
-plot(xvar, yvar, type='l', xlab="5-minute inteval", ylab="Average number of steps")
+plot(0:287, avgStepsPerInterval, type='l', xlab='', xaxt='n',
+     ylab="Average number of steps in 5-min interval", 
+     cex.lab=1.2)
+xtics <- seq(0, 288, by=12)
+xtics2 <- seq(6, 287, by=12)
+xlabs <- sprintf("%04d", 100 * xtics / 12)
+xaxis <- axis(side=1, at=xtics, labels=xlabs, las=3, tck=-.034)
+xaxis2 <- axis(side=1, at=xtics2, labels=F, tck=-.025)
+rug(1:287, ticksize=-.017)
+mtext("5-min interval (24-hr time)", side=1, line=4, cex=1.2)
+title("Average Daily Number of Steps Per 5-min Interval")
 ```
 
 ![plot of chunk unnamed-chunk-7](figure/unnamed-chunk-7.png) 
@@ -95,7 +103,7 @@ print2(maxStepInterval <- names(which(avgStepsPerInterval == maxSteps)))
 ## [1] 835
 ```
 The maximum average number of steps per interval is **206.17** and occurs 
-in interval **835**.
+in interval **0835**.
 
 ## Imputing missing values
 

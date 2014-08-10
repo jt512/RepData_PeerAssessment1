@@ -38,10 +38,18 @@ avgStepsPerInterval <- with(data1, tapply(steps, interval, mean, na.rm=TRUE))
 
 Plot the average number of steps per 5-min. interval by the 5-min. interval.
 
-```{r fig.height=4, fig.width=8}
-xvar <- as.numeric(names(avgStepsPerInterval)) 
-yvar <- avgStepsPerInterval
-plot(xvar, yvar, type='l', xlab="5-minute inteval", ylab="Average number of steps")
+```{r fig.height=4, fig.width=12, fig.height=6}
+plot(0:287, avgStepsPerInterval, type='l', xlab='', xaxt='n',
+     ylab="Average number of steps in 5-min interval", 
+     cex.lab=1.2)
+xtics <- seq(0, 288, by=12)
+xtics2 <- seq(6, 287, by=12)
+xlabs <- sprintf("%04d", 100 * xtics / 12)
+xaxis <- axis(side=1, at=xtics, labels=xlabs, las=3, tck=-.034)
+xaxis2 <- axis(side=1, at=xtics2, labels=F, tck=-.025)
+rug(1:287, ticksize=-.017)
+mtext("5-min interval (24-hr time)", side=1, line=4, cex=1.2)
+title("Average Daily Number of Steps Per 5-min Interval")
 ```
 
 Determine which interval has the highest average number of steps:
@@ -54,7 +62,7 @@ print2(maxSteps <- max(avgStepsPerInterval))
 print2(maxStepInterval <- names(which(avgStepsPerInterval == maxSteps)))
 ```
 The maximum average number of steps per interval is **`r print2(maxSteps)`** and occurs 
-in interval **`r maxStepInterval`**.
+in interval **`r sprintf("%04d", as.numeric(maxStepInterval))`**.
 
 ## Imputing missing values
 
