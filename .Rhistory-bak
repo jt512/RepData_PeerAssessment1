@@ -10,3 +10,72 @@ knit2html("PA1_template.Rmd")
 browseURL("PA1_template.html")
 quit(save = "yes")
 summary(data1)
+library(knitr)
+library(markdown)
+ls
+?knitr
+?knit2html
+knot2html("PA1_template.Rmd")
+knit2html("PA1_template.Rmd")
+knit2html("PA1_template.Rmd")
+knit2html("PA1_template.Rmd")
+knit2html("PA1_template.Rmd")
+knit2html("PA1_template.Rmd")
+knit2html("PA1_template.Rmd")
+knit2html("PA1_template.Rmd")
+knit2html("PA1_template.Rmd")
+knit2html("PA1_template.Rmd")
+knit2html("PA1_template.Rmd")
+knit2html("PA1_template.Rmd")
+knit2html("PA1_template.Rmd")
+knit2html("PA1_template.Rmd")
+knit2html("PA1_template.Rmd")
+library(markdown)
+library(knitr)
+knit2html("PA1_template.Rmd")
+knit2pdf("PA1_template.Rmd")
+?knit2pdf
+?knit2html
+?knit
+?markdown-package
+?'markdown-package'
+?knit2pdf
+data2
+with(data1, tapply(steps, interval, mean, na.rm=T))
+with(data1, with(steps, interval, mean, na.rm=T))
+with(data1, by(steps, interval, mean, na.rm=T))
+with(data1, tapply(steps, interval, mean, na.rm=T))->taspi
+attribute(taspi)
+attributes(taspi)
+avgStepsPerInterval
+names(taspi)
+as.numeric(names(taspi))
+knit2html("PA1_template.Rmd")
+anyNA(taspi)
+with(data1, lapply(steps, interval, mean, na.rm=T))
+?lapply
+with(data1, tapply(steps, interval, mean, na.rm=T))->taspi
+taspi
+quit(save = "yes")
+library(knitr)
+knit2html("PA1_template.Rmd")
+knit2html("PA1_template.Rmd")
+knit2html("PA1_template.Rmd")
+?xyplots
+?xyplot
+?par.settings
+?trellis.par.set
+?axis.components
+?axis.components
+knit2html("PA1_template.Rmd")
+knit2html("PA1_template.Rmd")
+?xyplot
+knit2html("PA1_template.Rmd")
+knit2html("PA1_template.Rmd")
+?xyplot
+knit2html("PA1_template.Rmd")
+knit2html("PA1_template.Rmd")
+knit2html("PA1_template.Rmd")
+knit2html("PA1_template.Rmd")
+knit2html("PA1_template.Rmd")
+quit(save = "yes")

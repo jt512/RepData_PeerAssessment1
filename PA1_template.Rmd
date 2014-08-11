@@ -151,14 +151,20 @@ names(avg.data) <- c('interval', 'weekday', 'steps')
 # over all weekdays and all weekend days, vs. the interval
 avg.data$x <- 0:287
 xticks3 <- seq(0, 288, by=6)
-
-xlabs3 <- numeric(49)
-xlabs3[1:49 %% 2 == 1] <- as.character(sprintf("%04d", xtics*100/12))
-xlabs3[1:49 %% 2 == 0] <- ''
+lenx <- length(xticks3)
+xlabs3 <- numeric(lenx)
+xlabs3[1:lenx %% 2 == 1] <- as.character(sprintf("%04d", xtics*100/12))
+xlabs3[1:lenx %% 2 == 0] <- ''
 xyplot(steps ~ x | weekday, data=avg.data, type='l', layout=c(1,2),
        xlab=list("5-min Interval (24-hr time)", cex=1.2), 
-       ylab=list("Average daily number of steps", cex=1.2), 
+       ylab=list("Average daily number of steps in 5-min interval", cex=1.2), 
        scales=list(cex=1.05, x=list(at=xticks3, rot=90, labels=xlabs3)),
        par.strip.text=list(cex=1.15))
 ```
+
+The figure, above, reveals differences between the weekend and weekday activity
+patterns.  On weekdays, activity begins around 0530, and there is a marked peak,
+about one hour in duration, centered around 0830.  On weekends, activity begins
+later (around 0700), the 0830 peak is less prominent, and activity levels
+throught the remainder of the day tend to be higher than on weekdays.
 
