@@ -253,8 +253,17 @@ names(avg.data) <- c('interval', 'weekday', 'steps')
 
 # Plot the average number of steps per day for each interval, averagesd separately 
 # over all weekdays and all weekend days, vs. the interval
-xyplot(steps ~ interval | weekday, data=avg.data, type='l', layout=c(1,2), xlab="Interval",
-       ylab="Average number of steps")
+avg.data$x <- 0:287
+xticks3 <- seq(0, 288, by=6)
+
+xlabs3 <- numeric(49)
+xlabs3[1:49 %% 2 == 1] <- as.character(sprintf("%04d", xtics*100/12))
+xlabs3[1:49 %% 2 == 0] <- ''
+xyplot(steps ~ x | weekday, data=avg.data, type='l', layout=c(1,2),
+       xlab=list("5-min Interval (24-hr time)", cex=1.2), 
+       ylab=list("Average daily number of steps", cex=1.2), 
+       scales=list(cex=1.05, x=list(at=xticks3, rot=90, labels=xlabs3)),
+       par.strip.text=list(cex=1.15))
 ```
 
 ![plot of chunk unnamed-chunk-15](figure/unnamed-chunk-15.png) 
